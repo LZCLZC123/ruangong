@@ -1,0 +1,67 @@
+{template 'common/header'}
+<div class="page-group">
+    <div class="page superpage_{$do}" id="superpage_{$do}_{$act}">
+        {template 'common/title'}
+        <div class="content">
+            <form class="post-form" action="" method="post">
+                <div class="weui-cells weui-cells_form">
+                    <div class="weui-cell weui-cell_select weui-cell_select-after">
+                        <div class="weui-cell__hd">
+                            <label class="weui-label">置顶位置</label>
+                        </div>
+                        <div class="weui-cell__bd">
+                            <select class="weui-select position-select" name="position">
+                                <option value="0">请选择置顶位置</option>
+                                {if !empty($list)}
+                                {loop $list $li}
+                                <option value="{$li['id']}">{$li['title']}</option>
+                                {/loop}
+                                {/if}
+                            </select>
+                        </div>
+                    </div>
+                    <div class="hide-item position-hide">
+                        {loop $list $li}
+                        <div class="position-item" data-id="{$li['id']}">
+                            {loop $li['fields'] $item}
+                            <span data-price="{$item['price']}" data-type="{$item['type']}">{$item['value']}</span>
+                            {/loop}
+                        </div>
+                        {/loop}
+                    </div>
+                    <div class="weui-cell weui-cell_select weui-cell_select-after">
+                        <div class="weui-cell__hd">
+                            <label class="weui-label">置顶方式</label>
+                        </div>
+                        <div class="weui-cell__bd">
+                            <select class="weui-select type-select" name="type">
+
+                            </select>
+                        </div>
+                    </div>
+                    <div class="weui-cell">
+                        <div class="weui-cell__hd"><label class="weui-label">单价</label></div>
+                        <div class="weui-cell__bd">
+                            <input class="weui-input price" name="price" placeholder="选择前两项后自动展示" disabled>
+                        </div>
+                    </div>
+                    <div class="weui-cell">
+                        <div class="weui-cell__hd"><label class="weui-label">购买数量</label></div>
+                        <div class="weui-cell__bd">
+                            <input class="weui-input count" type="number" name="count" placeholder="请填写要购买的置顶时间数">
+                        </div>
+                    </div>
+                </div>
+                <div class="weui-btn-area">
+                    <a class="weui-btn weui-btn_primary btn_post" href="javascript:;" data-url="{php echo $this->createMobileUrl('pay_top', array('act' => 'pay'))}" data-homeurl="{php echo $this->createMobileUrl('home')}">
+                        确认支付 <span class="money"></span>
+                    </a>
+                    <a class="weui-btn btn_cancel" href="{php echo $this->createMobileUrl('home')}">取消支付</a>
+                    <input type="hidden" name="token" value="{$_W['token']}">
+                    <input type="hidden" name="itemid" value="{$_GPC['itemid']}">
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{template 'common/footer'}

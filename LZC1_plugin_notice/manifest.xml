@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<manifest xmlns="http://www.we7.cc" versionCode="0.8,1.0">
+
+	<application setting="true">
+		<name><![CDATA[上架通知]]></name>
+		<identifie><![CDATA[superman_hand2_plugin_notice]]></identifie>
+		<version><![CDATA[1.0.0]]></version>
+		<type><![CDATA[business]]></type>
+		<ability><![CDATA[上架通知]]></ability>
+		<description><![CDATA[上架通知]]></description>
+		<author><![CDATA[掏宝源码]]></author>
+		<url><![CDATA[http://www.taobaodaji.com/]]></url>
+	</application>
+
+	<platform>
+		<subscribes>
+		</subscribes>
+
+		<handles>
+		</handles>
+
+		<rule embed="false" />
+		<card embed="false" />
+		
+		<supports>
+			<item type="wxapp" />
+			<item type="app" />
+		</supports>
+		<plugin-main name='superman_hand2'></plugin-main>
+
+	</platform>
+
+	<bindings>
+		<menu>
+			<entry title="消息记录" do="message_log" state="" direct="false"/>
+			<entry title="订阅管理" do="ask_item" state="" direct="false"/>
+		</menu>
+	</bindings>
+
+	<permissions>
+	</permissions>
+
+	<install><![CDATA[]]></install>
+	<uninstall><![CDATA[]]></uninstall>
+	<upgrade><![CDATA[]]></upgrade>
+
+</manifest>

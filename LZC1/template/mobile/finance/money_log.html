@@ -1,0 +1,35 @@
+{template 'common/header'}
+<div class="page-group">
+    <div class="page superpage_{$do}" id="superpage_{$do}_{$act}">
+        {template 'common/title'}
+        <div class="content infinite-scroll">
+            <div class="my-panel">
+                <div class="flex-box">
+                    <div class="row">
+                        <div class="col-25">金额</div>
+                        <div class="col-50">备注</div>
+                        <div class="col-25">时间</div>
+                    </div>
+                </div>
+                {if !empty($list)}
+                <div class="flex-box">
+                    {loop $list $li}
+                    <div class="row">
+                        <div class="col-25">
+                            <span class="{if $li['type'] == 1}text-green{else}text-yellow{/if}">
+                                {if $li['type'] == 1}+{else}-{/if}{$li['money']}
+                            </span>
+                        </div>
+                        <div class="col-50">{$li['remark']}</div>
+                        <div class="col-25">{$li['createtime']}</div>
+                    </div>
+                    {/loop}
+                </div>
+                {else}
+                <div class="no-data">空空如也</div>
+                {/if}
+            </div>
+        </div>
+    </div>
+</div>
+{template 'common/footer'}

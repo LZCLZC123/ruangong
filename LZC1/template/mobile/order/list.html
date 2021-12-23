@@ -1,0 +1,51 @@
+{template 'common/header'}
+<div class="page-group">
+    <div class="page page-current superpage_{$do}" id="superpage_{$do}_{$act}">
+        {template 'common/nav'}
+        {template 'common/title'}
+        <div class="content infinite-scroll" data-flag="0" data-page="1" data-list-url="{php echo $this->createMobileUrl('my', array('act' => 'item_list'))}" data-detail-url="{php echo $this->createMobileUrl('item', array('act' => 'detail'))}" data-img-url="{php echo $_W['siteroot']}attachment/">
+            <div class="list-block media-list no-margin">
+                {if !empty($list)}
+                {loop $list $li}
+                <div class="card facebook-card">
+                    <div class="card-header no-border">
+                        <div class="facebook-avatar">
+                            <img src="{$li['cover']}" >
+                        </div>
+                        <div class="facebook-name">{$li['title']}</div>
+                        <div class="facebook-date">{$li['description']}</div>
+                    </div>
+                    <div class="card-footer">
+                        <div class="float-left">
+                            赚了：
+                            {if $li['buy_type'] == 0}
+                            {$li['price']}{if $li['unit'] == 0}元{else}美元{/if}
+                            {else}
+                            {$li['credit']}积分
+                            {/if}
+                        </div>
+                        <div class="float-right">
+                            <div class="like-btn">点击发货</div>
+                            <div class="like-btn">取消订单</div>
+                            <div class="like-btn">已发货</div>
+                            <div class="like-btn">确认收货</div>
+                            <div class="like-btn">去评价</div>
+                            <div class="like-btn">已完成</div>
+                            <div class="like-btn">删除订单</div>
+                        </div>
+                    </div>
+                </div>
+                {/loop}
+                {else}
+                <div class="no-data">空空如也</div>
+                {/if}
+            </div>
+            {if count($list)==$pagesize}
+            <div class="infinite-scroll-preloader">
+                <div class="preloader"></div>
+            </div>
+            {/if}
+        </div>
+    </div>
+</div>
+{template 'common/footer'}

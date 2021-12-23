@@ -1,0 +1,81 @@
+{template 'common/header'}
+<header class="bar bar-nav">
+    <a class="icon icon-left pull-left back"></a>
+    <h1 class="title">{$title}</h1>
+</header>
+<div class="page-group">
+    <div class="page superpage_{$do}" id="superpage_{$do}_{$act}">
+        {template 'common/title'}
+        <div class="content infinite-scroll">
+            <input type="hidden" name="itemid" value="{$item['id']}">
+            <input type="hidden" name="username" value="">
+            <input type="hidden" name="mobile" value="">
+            <input type="hidden" name="address" value="">
+            <div class="list-block media-list">
+                <ul>
+                    <li>
+                        <a href="#" class="item-link item-content click-address">
+                            <div class="item-inner">
+                                <div class="wechat_address hide-item">
+                                    <div class="item-title-row">
+                                        <div class="item-title text-strong">
+                                            <span class="username"></span>
+                                            <span class="hide_mobile"></span>
+                                        </div>
+                                    </div>
+                                    <div class="item-text font7"></div>
+                                </div>
+                                <div class="get-address">点击获取微信收货地址</div>
+                            </div>
+                        </a>
+                    </li>
+                    <div class="row address_bg_wrap">
+                        <div class="col-100" style="background-image: url('{MODULE_URL}/template/mobile/images/address_bg.gif');">&nbsp;</div>
+                    </div>
+                </ul>
+            </div>
+            <div class="list-block media-list font7">
+                <ul>
+                    <li class="item_wrap">
+                        <div class="item-content">
+                            <div class="item-media">
+                                <img src="{php echo tomedia($item['cover'])}">
+                            </div>
+                            <div class="item-inner">
+                                <div class="item-title-row">
+                                    <div class="item-title font7 color-default">{$item['title']}</div>
+                                </div>
+                                <div class="item-subtitle">
+                                    {if $item['buy_type'] == 0}
+                                    <span class="color-danger font8 pull-left">
+                                        {php echo $item['unit'] == 1 ? '$' : '￥'}{$item['price']}
+                                    </span>
+                                    {else}
+                                    <span class="color-danger font8 pull-left">
+                                        所需积分: {$item['credit']}
+                                    </span>
+                                    {/if}
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+            <div class="list-block media-list font7">
+                <div class="item-content item_remark">
+                    <div class="item-inner">
+                        <div class="item-title label"></div>
+                        <div class="item-input">
+                            <textarea maxlength="100" name="remark" placeholder="备注信息（选填）"></textarea>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div>
+                <a href="#" class="button button-fill button-big btn_post" data-type="{$item['buy_type']}">确认支付</a>
+                <input type="hidden" name="token" value="{$_W['token']}">
+            </div>
+        </div>
+    </div>
+</div>
+{template 'common/footer'}

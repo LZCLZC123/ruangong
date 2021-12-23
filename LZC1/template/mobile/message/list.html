@@ -1,0 +1,137 @@
+{template 'common/header'}
+<div class="page-group">
+    <div class="page page-current superpage_{$do}" id="superpage_{$do}_{$act}" data-chat-port="{php echo SUPERMAN_HAND2_CHAT_PORT}" data-chaturl="{php echo $this->module['config']['base']['chaturl']}">
+        {template 'common/nav'}
+        {template 'common/title'}
+        <div class="content infinite-scroll" data-flag="0" data-page="1" data-list-url="{php echo $this->createMobileUrl('message')}" data-detail-url="{php echo $this->createMobileUrl('message', array('act' => 'chat'))}" data-img-url="{php echo $_W['siteroot']}attachment/">
+            <div class="list-block media-list no-margin">
+                <ul id="message-list">
+                    {if !empty($list)}
+                    {loop $list $li}
+                    <li {if $li['from']}data-from="{$li['from']}"{/if}>
+                        <a href="javascript:;" class="item-link item-content chat-link" data-url="{php echo $this->createMobileUrl('message', array('act' => 'chat', 'itemid' => $li['itemid'], 'fromuid' => $li['from_uid']))}" data-fromuid="{$li['from_uid']}" data-touid="{$li['uid']}" data-itemid="{$li['itemid']}">
+                            <div class="item-media block-avatar">
+                                <img src="{$li['avatar']}">
+                                {if $li['status']}<div class="dot"></div>{/if}
+                            </div>
+                            <div class="item-inner">
+                                <div class="item-title-row">
+                                    <div class="item-title">{$li['nickname']}</div>
+                                </div>
+                                <div class="item-subtitle color-gray">{$li['message']}</div>
+                                {if !empty($li['cover'])}
+                                <div class="item-img">
+                                    <img src="{php echo tomedia($li['cover'])}" alt="">
+                                </div>
+                                {/if}
+                            </div>
+                        </a>
+                        <div class="hide-delete" data-url="{php echo $this->createMobileUrl('message', array('act' => 'delete', 'id' => $li['id']))}">删除</div>
+                    </li>
+                    {/loop}
+                    {else}
+                    <li><div class="no-data">您还没有收到新消息</div></li>
+                    {/if}
+                </ul>
+            </div>
+            {if count($list)==$pagesize}
+            <div class="infinite-scroll-preloader">
+                <div class="preloader"></div>
+            </div>
+            {/if}
+        </div>
+    </div>
+    <div class="popup popup-chat">
+    </div>
+</div>
+</div>
+<script type="text/template" id="tpl_chat">
+    <header class="bar bar-nav">
+        <a class="button button-link pull-right close-popup" href="#">
+            <i class="iconfont icon-close"></i>
+        </a>
+        <h1 class='title'>与<span class="chat_name"><%= from.nickname %></span>聊天中</h1>
+    </header>
+    <div class="item_wrap">
+        <div class="list-block media-list media-item">
+            <div class="item-content open-item-modal">
+                <div class="hide-item" data-url="<%= window.sysinfo.siteroot %>app/index.php?i=<%= window.sysinfo.uniacid %>&c=entry&act=detail&do=item&id=<%= item.id %>&m=superman_hand2">
+                    <% _.each(item.album, function(li) { %>
+                    <% if (li.indexOf('http') == 0) { %>
+                    <img src="<%= li %>">
+                    <% } else { %>
+                    <img src="<%= window.sysinfo.siteroot %>attachment/<%= li %>">
+                    <% } %>
+                    <% }); %>
+                    <p class="item-text"><%= item.description %></p>
+                </div>
+                <div class="item-media">
+                    <% if (item.cover.indexOf('http') == 0) { %>
+                    <img src="<%= item.cover %>">
+                    <% } else { %>
+                    <img src="<%= window.sysinfo.siteroot %>attachment/<%= item.cover %>">
+                    <% } %>
+                </div>
+                <div class="item-inner">
+                    <div class="item-title-row">
+                        <div class="item-title text-red">
+                            <% if (item.buy_type == 0) { %>
+                            &yen;<%= item.price %>元
+                            <% } else { %>
+                            <%= item.credit %>积分
+                            <% } %>
+                        </div>
+                    </div>
+                    <div class="item-subtitle">交易前先聊一聊</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="content pull-to-refresh-content" data-flag="0" data-page="1" data-list-url="{php echo $this->createMobileUrl('message', array('act' => 'chat'))}" data-itemid="<%= item.id %>" data-fromuid="<%= from.uid %>" data-avatar="<%= to.avatar %>" data-from-avatar="<%= from.avatar %>">
+        <div class="pull-to-refresh-layer">
+            <div class="preloader"></div>
+            <div class="pull-to-refresh-arrow"></div>
+        </div>
+        <div class="message_list">
+            <% _.each(message, function(item) { %>
+            <% if (item.to_uid==window.sysinfo.member.uid) { %>
+            <div class="message-item float-left clearfix">
+                <div class="message-avatar block">
+                    <img src="<%= from.avatar %>">
+                </div>
+                <div class="message-box block"><%= item.message %></div>
+            </div>
+            <% } else { %>
+            <div class="message-item float-right clearfix">
+                <div class="message-avatar block">
+                    <img src="<%= to.avatar %>">
+                </div>
+                <div class="message-box block"><%= item.message %></div>
+            </div>
+            <% } %>
+            <% }); %>
+        </div>
+
+    </div>
+    <div class="message_toolbar">
+        <div class="clearfix">
+            <div class="message-input">
+                <input type="text" class="txtMessage" placeholder="输入你想说的话...">
+                <span id="emoj" class="iconfont icon-smile"></span>
+            </div>
+            <div class="message-btn">
+                <input class="button button-fill button-success btnSend" data-itemid="<%= item.id %>" data-fromuid="<%= from.uid %>" type="submit" value="发送">
+            </div>
+        </div>
+        <div class="wrapper"></div>
+    </div>
+</script>
+<script type="text/template" id="tpl_message">
+    <div class="message-item <%= float %> clearfix">
+        <div class="message-avatar block">
+            <img src="<%= avatar %>">
+        </div>
+        <div class="message-box block"><%= content %></div>
+    </div>
+</script>
+{template 'common/footer'}

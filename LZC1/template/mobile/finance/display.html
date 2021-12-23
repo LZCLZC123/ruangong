@@ -1,0 +1,25 @@
+{template 'common/header'}
+<div class="page-group">
+    <div class="page superpage_{$do}" id="superpage_{$do}_{$act}">
+        {template 'common/title'}
+        <div class="content">
+            <div class="show-box">
+                <div class="money">￥{$balance['balance']}</div>
+                <div class="show-bottom">
+                    <div class="show-inline">
+                        <a href="{php echo $this->createMobileUrl('finance', array('act' => 'money_log'))}">收支明细</a>
+                    </div>
+                    <div class="show-inline">
+                        <a href="{php echo $this->createMobileUrl('finance', array('act' => 'getcash_log'))}">提现记录</a>
+                    </div>
+                </div>
+            </div>
+            <a href="{if $balance['balance'] > 0}{php echo $this->createMobileUrl('finance', array('act' => 'getcash'))}{else}#{/if}">
+                <div class="deposit-btn {if $balance['balance'] == 0}disabled{/if}">
+                    申请提现
+                </div>
+            </a>
+        </div>
+    </div>
+</div>
+{template 'common/footer'}

@@ -1,0 +1,138 @@
+{template 'common/header'}
+<div class="page-group">
+    <div class="page superpage_{$do}" id="superpage_{$do}_{$act}">
+        {template 'common/nav'}
+        {template 'common/title'}
+        <div class="content infinite-scroll" data-flag="0" data-page="1" data-list-url="{php echo $this->createMobileUrl('item', array('load' => 'infinite'))}" data-detail-url="{php echo $this->createMobileUrl('item', array('act' => 'detail'))}" data-img-url="{php echo $_W['siteroot']}attachment/">
+            {if !empty($banner_svalue)}
+            <div class="swiper-container home_swiper_warp" data-autoplay="4000">
+                <div class="swiper-wrapper">
+                    {loop $banner_svalue $li}
+                    <div class="swiper-slide">
+                        <a href="{$li['url']}">
+                            <img src="{php echo tomedia($li['img'])}">
+                        </a>
+                    </div>
+                    {/loop}
+                </div>
+            </div>
+            {/if}
+            <div class="flex-item">
+                <div class="order-item active" data-type="default">默认排序</div>
+                <div class="order-item" data-type="location">离我最近</div>
+                <div class="order-item" data-type="popular">人气最高</div>
+            </div>
+            <div class="item-list" id="goods-list">
+                {if !empty($list)}
+                {loop $list $li}
+                <div class="card facebook-card seller-item">
+                    <a data-no-cache="true" href="{php echo $this->createMobileUrl('item', array('act' => 'detail', 'id' => $li['id']))}">
+                        <div class="card-header no-border">
+                            <div class="facebook-avatar">
+                                <img src="{php echo tomedia($li['avatar'])}">
+                            </div>
+                            <div class="facebook-info">
+                                <div class="facebook-name">{$li['nickname']}</div>
+                                <div class="facebook-date">{$li['time_diff']}前发布</div>
+                            </div>
+                            <div class="facebook-price">
+                                {if $li['buy_type'] == 1}
+                                {if $li['credit'] > 0}
+                                {$li['credit']}积分
+                                {else}
+                                面议
+                                {/if}
+                                {else}
+                                {if $li['price'] > 0}
+                                {if $li['unit'] == 1}
+                                {$li['price']}美元
+                                {else}
+                                {$li['price']}元
+                                {/if}
+                                {else}
+                                面议
+                                {/if}
+                                {/if}
+                            </div>
+                        </div>
+                        <div class="card-content">
+                            {if $li['status'] == 2}
+                            <div class="sell-status">
+                                <img src="{$_W[siteroot]}addons/superman_hand2/template/mobile/images/yz.png" alt="">
+                            </div>
+                            {/if}
+                            {if count($li['album']) == 1}
+                            <div class="img-box w50">
+                                <img class="card-photo" src="{php echo tomedia($li[album][0])}">
+                            </div>
+                            {else if count($li['album']) > 1}
+                            {if !empty($li['thumb'])}
+                            {loop $li['thumb'] $val}
+                            {if !empty($val)}
+                            <div class="img-box">
+                                <img class="card-photo" src="{php echo tomedia($val)}">
+                            </div>
+                            {/if}
+                            {/loop}
+                            {/if}
+                            {/if}
+                            <p class="text-overflow">{$li['title']}</p>
+                            {if $li['comment']}
+                            <div class="item-message">
+                                <p>{$li['comment']['buyer_name']}：{$li['comment']['message']}</p>
+                                {if $li['comment']['reply']}<p>主人回复：{$li['comment']['reply']}</p>{/if}
+                            </div>
+                            {/if}
+                        </div>
+                        <div class="card-footer">
+                            <div class="float-left">
+                                <div class="footer-address"><i class="iconfont icon-pos"></i>{$li['address']}</div>
+                            </div>
+                            <div class="float-right">
+                                <div class="inline">
+                                    <span class="iconfont icon-praise"></span><span>{$li['zan']}</span>
+                                </div>
+                                <div class="inline">
+                                    <span class="iconfont icon-xiaoxi"></span><span>{$li['message']}</span>
+                                </div>
+                                {if $item_view == 1}
+                                <div class="inline">
+                                    <span class="iconfont icon-eye"></span><span>{$li['page_view']}</span>
+                                </div>
+                                {/if}
+                            </div>
+                        </div>
+                    </a>
+                </div>
+                {/loop}
+                {else}
+                <div class="no-data">空空如也</div>
+                {/if}
+            </div>
+            <div class="nodata font6 text-center color-gray" style="display: none; padding-bottom: .2rem;">
+                没有了
+            </div>
+            {if count($list)==$pagesize}
+            <div class="infinite-scroll-preloader">
+                <div class="preloader"></div>
+            </div>
+            {/if}
+        </div>
+        {template 'common/share'}
+    </div>
+    <div class="panel panel-right panel-reveal category-panel">
+        <div class="content-block">
+            <h4>物品分类</h4>
+            <ul>
+                <li {if empty($_GPC['cid'])}class="active"{/if}><a href="{php echo $this->createMobileUrl('item', array('act' => 'list'))}" data-no-cache="true" class="close-panel">全部</a></li>
+                {if !empty($category)}
+                {loop $category $li}
+                <li {if $_GPC['cid'] && $_GPC['cid'] == $li['id']}class="active"{/if}><a href="{php echo $this->createMobileUrl('item', array('act' => 'list', 'cid' => $li['id']))}" data-no-cache="true" class="close-panel">{$li['title']}</a></li>
+                {/loop}
+                {/if}
+            </ul>
+        </div>
+    </div>
+</div>
+
+{template 'common/footer'}

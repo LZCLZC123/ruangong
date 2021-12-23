@@ -1,0 +1,81 @@
+{template 'common/header'}
+<div class="page-group">
+    <div class="page page-current superpage_{$do}" id="superpage_{$do}_{$act}">
+        {template 'common/title'}
+        <div class="content infinite-scroll" data-flag="0" data-page="1">
+            <div class="list-block media-list no-margin">
+                {if !empty($list)}
+                {loop $list $li}
+                <div class="card facebook-card">
+                    <div class="card-header no-border">
+                        <a href="{php echo $this->createMobileUrl('item', array('act' => 'detail', 'id' => $li['item']['id'], 'orderid' => $li['id']))}">
+                            <div class="facebook-avatar" style="margin-right: 10px;">
+                                <img src="{$li['item']['cover']}" width="40" height="40">
+                            </div>
+                            <div class="facebook-name font8">{$li['item']['title']}</div>
+                            <div class="facebook-date font65">{$li['item']['description']}</div>
+                        </a>
+                    </div>
+                    <div class="card-content"></div>
+                    <div class="card-footer">
+                        <div class="footer-left">
+                            {if $_GPC['type'] == 'sell'}赚了：{else}花了：{/if}
+                            {if $li['item']['buy_type'] == 0}
+                            {$li['price']}{if $li['item']['unit'] == 0}元{else}美元{/if}
+                            {else}
+                            {$li['credit']}积分
+                            {/if}
+                        </div>
+                        <div class="footer-right" data-url="{php echo $this->createMobileUrl('order', array('act' => 'post'))}">
+                            {if $li['status'] == -1}
+                            <div class="like-btn disabled">已取消</div>
+                            {/if}
+                            {if $li['status'] == 1 && $_GPC['type'] == 'sell'}
+                            <div class="like-btn send_order" data-id="{$li['id']}">点击发货</div>
+                            {if $li['paytype'] == 1}
+                            <div class="like-btn bg-yellow cancel_order" data-id="{$li['id']}">取消订单</div>
+                            {/if}
+                            {/if}
+                            {if $li['status'] == 1 && $_GPC['type'] == 'buy'}
+                            <div class="like-btn disabled">待发货</div>
+                            {if $li['paytype'] == 1}
+                            <div class="like-btn bg-yellow cancel_order" data-id="{$li['id']}">取消订单</div>
+                            {/if}
+                            {/if}
+                            {if $li['status'] == 2 && $_GPC['type'] == 'sell'}
+                            <div class="like-btn disabled">已发货</div>
+                            {/if}
+                            {if $li['status'] == 2 && $_GPC['type'] == 'buy'}
+                            <div class="like-btn confirm_order" data-id="{$li['id']}">确认收货</div>
+                            {/if}
+                            {if $li['status'] == 3 && $_GPC['type'] == 'buy'}
+                            <div class="like-btn">
+                                <a href="{php echo $this->createMobileUrl('order', array('act' => 'comment', 'orderid' => $li['id']))}">去评价</a>
+                            </div>
+                            {/if}
+                            {if $li['status'] == 3 && $_GPC['type'] == 'sell'}
+                            <div class="like-btn disabled">待评价</div>
+                            {/if}
+                            {if $li['status'] == 4}
+                            <div class="like-btn">已完成</div>
+                            {/if}
+                            {if $li['status'] == 4 || $li['status'] == 3 || $li['status'] == -1}
+                            <div class="like-btn bg-red delete_order" data-url="{php echo $this->createMobileUrl('order', array('act' => 'delete', 'orderid' => $li['id']))}">删除订单</div>
+                            {/if}
+                        </div>
+                    </div>
+                </div>
+                {/loop}
+                {else}
+                <div class="no-data">空空如也</div>
+                {/if}
+            </div>
+            {if count($list)==$pagesize}
+            <div class="infinite-scroll-preloader">
+                <div class="preloader"></div>
+            </div>
+            {/if}
+        </div>
+    </div>
+</div>
+{template 'common/footer'}

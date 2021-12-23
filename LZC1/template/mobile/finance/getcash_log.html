@@ -1,0 +1,37 @@
+{template 'common/header'}
+<div class="page-group">
+    <div class="page superpage_{$do}" id="superpage_{$do}_{$act}">
+        {template 'common/title'}
+        <div class="content infinite-scroll">
+            <div class="my-panel">
+                <div class="flex-box">
+                    <div class="row">
+                        <div class="col-25">提现金额</div>
+                        <div class="col-20">服务费</div>
+                        <div class="col-20">状态</div>
+                        <div class="col-33">申请时间</div>
+                    </div>
+                </div>
+                {if !empty($list)}
+                <div class="flex-box">
+                    {loop $list $li}
+                        <div class="row">
+                            <div class="col-25">
+                                <span class="text-green">{$li['money']}</span>
+                            </div>
+                            <div class="col-20">
+                                <span class="text-yellow">{$li['service_fee']}</span>
+                            </div>
+                            <div class="col-20">{$li['status_title']}</div>
+                            <div class="col-33">{$li['createtime']}</div>
+                        </div>
+                    {/loop}
+                </div>
+                {else}
+                <div class="no-data">空空如也</div>
+                {/if}
+            </div>
+        </div>
+    </div>
+</div>
+{template 'common/footer'}

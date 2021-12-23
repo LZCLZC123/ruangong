@@ -1,0 +1,120 @@
+{template 'common/header'}
+<div class="page-group">
+    <div class="page superpage_{$do}" id="superpage_{$do}_{$act}">
+        {template 'common/nav'}
+        {template 'common/title'}
+        <div class="content">
+            <div class="data_wrap">
+                <div class="avatar_wrap" style="background: url({$_W[siteroot]}addons/superman_hand2/template/mobile/images/Shape.png) center bottom no-repeat; background-size: 100%; height: 5rem;"></div>
+                <div class="avatar">
+                    <img src="{$my['avatar']}" onerror="this.src='resource/images/heading.jpg'"/>
+                    <div class="member_wrap">{$my['nickname']}</div>
+                    {if $my['credit1'] > 0 && (!isset($this->module['config']['base']['credit_off']) || $this->module['config']['base']['credit_off'] == 0)}
+                    <div class="member_wrap">积分: {$my['credit1']} {if !empty($my['block_credit'])}(被冻结: {$my['block_credit']}){/if}</div>
+                    {/if}
+                </div>
+                <div class="nav_wrap">
+                    <a href="{php echo $this->createMobileUrl('my', array('act' => 'item_list', 'action' => 1))}">
+                        <div class="nav-list">
+                            <div class="list-icon">
+                                <span class="my-icon">
+                                    <img src="{$_W[siteroot]}addons/superman_hand2/template/mobile/images/zan.png">
+                                </span>
+                                {if $my['zan']}<div class="count-num">{$my['zan']}</div>{/if}
+                            </div>
+                            <span>点赞</span>
+                        </div>
+                    </a>
+                    <a href="{php echo $this->createMobileUrl('my', array('act' => 'item_list', 'action' => 2))}">
+                        <div class="nav-list">
+                            <div class="list-icon">
+                                <span class="my-icon">
+                                    <img src="{$_W[siteroot]}addons/superman_hand2/template/mobile/images/collect.png">
+                                </span>
+                                {if $my['collect']}<div class="count-num">{$my['collect']}</div>{/if}
+                            </div>
+                            <span>收藏</span>
+                        </div>
+                    </a>
+                    {if $my['balance']}
+                    <a href="{php echo $this->createMobileUrl('finance', array('act' => 'display'))}">
+                        <div class="nav-list">
+                            <div class="list-icon">
+                                <span class="my-icon">
+                                    <img src="{$_W[siteroot]}addons/superman_hand2/template/mobile/images/mbag.png">
+                                </span>
+                            </div>
+                            <span>钱包</span>
+                        </div>
+                    </a>
+                    {/if}
+                </div>
+            </div>
+            <div class="list-block my-list">
+                <ul>
+                    <li>
+                        <a href="{php echo $this->createMobileUrl('my', array('act' => 'item_list', 'type' => 'publish'))}" class="item-content item-link">
+                            <div class="item-inner">
+                                <div class="item-title">
+                                    <span class="small-img">
+                                        <img src="{$_W[siteroot]}addons/superman_hand2/template/mobile/images/pub.gif" alt="">
+                                    </span>
+                                    我发布的
+                                </div>
+                            </div>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{php echo $this->createMobileUrl('order', array('act' => 'display', 'type' => 'sell'))}" class="item-content item-link external">
+                            <div class="item-inner">
+                                <div class="item-title">
+                                    <span class="small-img">
+                                        <img src="{$_W[siteroot]}addons/superman_hand2/template/mobile/images/sell.gif" alt="">
+                                    </span>
+                                    我卖出的
+                                </div>
+                            </div>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{php echo $this->createMobileUrl('order', array('act' => 'display', 'type' => 'buy'))}" class="item-content item-link external">
+                            <div class="item-inner">
+                                <div class="item-title">
+                                    <span class="small-img">
+                                        <img src="{$_W[siteroot]}addons/superman_hand2/template/mobile/images/buy.gif" alt="">
+                                    </span>
+                                    我买到的
+                                </div>
+                            </div>
+                        </a>
+                    </li>
+                    <!--<li>
+                        <a href="{php echo $this->createMobileUrl('my', array('act' => 'credit_log'))}" class="item-content item-link">
+                            <div class="item-inner">
+                                <div class="item-title">
+                                    <span class="small-img">
+                                        <img src="{$_W[siteroot]}addons/superman_hand2/template/mobile/images/credit.png">
+                                    </span>
+                                    积分明细
+                                </div>
+                            </div>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{php echo $this->createMobileUrl('my', array('act' => 'get_credit'))}" class="item-content item-link">
+                            <div class="item-inner">
+                                <div class="item-title">
+                                    <span class="small-img">
+                                        <img src="{$_W[siteroot]}addons/superman_hand2/template/mobile/images/task.png">
+                                    </span>
+                                    任务中心
+                                </div>
+                            </div>
+                        </a>
+                    </li>-->
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+{template 'common/footer'}

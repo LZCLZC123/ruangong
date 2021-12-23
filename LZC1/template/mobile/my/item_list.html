@@ -1,0 +1,71 @@
+{template 'common/header'}
+<div class="page-group">
+    <div class="page page-current superpage_{$do}" id="superpage_{$do}_{$act}">
+        {template 'common/nav'}
+        {template 'common/title'}
+        <div class="content infinite-scroll" data-flag="0" data-page="1" data-list-url="{php echo $this->createMobileUrl('my', array('act' => 'item_list'))}" data-detail-url="{php echo $this->createMobileUrl('item', array('act' => 'detail'))}" data-img-url="{php echo $_W['siteroot']}attachment/">
+            <div class="list-block media-list no-margin">
+                <ul id="goods-list">
+                    {if !empty($list)}
+                    {loop $list $li}
+                    <li>
+                        <a href="{php echo $this->createMobileUrl('item', array('act' => 'detail', 'id' => $li['id']))}" data-no-cache="true" class="item-link item-content chat-link">
+                            <div class="item-media block-avatar">
+                                <img src="{php echo tomedia($li['cover'])}">
+                            </div>
+                            <div class="item-inner">
+                                <div class="item-title-row">
+                                    <div class="item-title font75">{$li['title']}</div>
+                                    <div class="item-after font7">
+                                        {if $li['status'] == 0}
+                                        <span class="text-red">待审核</span>
+                                        {/if}
+                                        {if $li['status'] == 1 && $li['item_top']['status'] === 0}
+                                        <span class="text-red">待置顶</span>
+                                        {/if}
+                                        {if $li['status'] == 1 && $li['item_top']['status'] == -2}
+                                        <span class="text-red">置顶过期</span>
+                                        {/if}
+                                        {if $li['status'] == 1 && empty($li['item_top'])}
+                                        <span class="text-red">已上架</span>
+                                        {/if}
+                                        {if $li['status'] == 2}
+                                        <span class="text-gray">已交易</span>
+                                        {/if}
+                                        {if $li['status'] == 1 && $li['item_top']['status'] == 1}
+                                        <span class="text-orange">置顶中</span>
+                                        {/if}
+                                    </div>
+                                </div>
+                                <div class="item-subtitle color-gray font65 clearfix">
+                                    <div class="pull-left">发布于{$li['time_diff']}前</div>
+                                    {if $li['item_top']}
+                                    <div class="pull-right">
+                                        <span class="like-btn" data-url="{php echo $this->createMobileUrl('pay_top', array('act' => 'log', 'itemid' => $li['id']))}">置顶记录</span>
+                                    </div>
+                                    {/if}
+                                </div>
+                            </div>
+                        </a>
+                        {if $_GPC['type'] == 'publish'}
+                        <div class="hide-delete" data-url="{php echo $this->createMobileUrl('my', array('act' => 'delete', 'id' => $li['id']))}">删除</div>
+                        <div class="hide-box">
+                            <a href="{php echo $this->createMobileUrl('pay_top', array('act' => 'display', 'itemid' => $li['id']))}">置顶</a>
+                        </div>
+                        {/if}
+                    </li>
+                    {/loop}
+                    {else}
+                    <li><div class="no-data">空空如也</div></li>
+                    {/if}
+                </ul>
+            </div>
+            {if count($list)==$pagesize}
+            <div class="infinite-scroll-preloader">
+                <div class="preloader"></div>
+            </div>
+            {/if}
+        </div>
+    </div>
+</div>
+{template 'common/footer'}

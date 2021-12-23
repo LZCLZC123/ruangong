@@ -1,0 +1,130 @@
+<style>
+    .table>thead>tr>th,.table>tbody>tr>td {
+        vertical-align: middle;
+    }
+    .dropdown-menu {
+        min-width: 70px;
+    }
+</style>
+<div class="main">
+    <div class="panel panel-info">
+        <div class="panel-heading">筛选</div>
+        <div class="panel-body">
+            <form action="" class="form-horizontal" role="form">
+                <input type="hidden" name="c" value="site">
+                <input type="hidden" name="a" value="entry">
+                <input type="hidden" name="do" value="grade">
+                <input type="hidden" name="act" value="display">
+                <input type="hidden" name="m" value="superman_hand2">
+                <div class="form-group">
+                    <label class="col-xs-12 col-sm-2 col-md-2 col-lg-2 control-label">订单号</label>
+                    <div class="col-sm-8 col-md-8 col-xs-12">
+                        <input class="form-control" name="ordersn" type="text" value="{$_GPC['ordersn']}">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-xs-12 col-sm-2 col-md-2 col-lg-2 control-label">评价人昵称</label>
+                    <div class="col-sm-8 col-md-8 col-xs-12">
+                        <input class="form-control" name="nickname" type="text" value="{$_GPC['nickname']}" placeholder="用户微信昵称">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-xs-12 col-sm-2 col-md-2 control-label">评价等级</label>
+                    <div class="col-sm-8 col-md-8 col-lg-5 col-xs-12">
+                        <select name="level" class="form-control">
+                            <option value="all" {if $level == 'all'}selected{/if}>全部</option>
+                            <option value="1" {if $level == 1}selected{/if}>好评</option>
+                            <option value="2" {if $level == 2}selected{/if}>中评</option>
+                            <option value="3" {if $level == 3}selected{/if}>差评</option>
+                        </select>
+                    </div>
+                    <div class="col-xs-12 col-sm-2 col-md-2 col-lg-2">
+                        <button class="btn btn-primary"><i class="fa fa-search"></i> 搜索</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    <form action="" method="post">
+        <div class="panel panel-default">
+            <div class="table-responsive panel-body">
+                <table class="table table-hover">
+                    <thead>
+                    <tr>
+                        <th width="30">
+                            <input type="checkbox" class="form-control" name="checkall">
+                        </th>
+                        <th>订单号</th>
+                        <th width="160">评价人</th>
+                        <th width="260">评价等级</th>
+                        <th>评价内容</th>
+                        <th>评价时间</th>
+                        <th width="180">操作</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {if !empty($list)}
+                    {loop $list $li}
+                    <tr>
+                        <td>
+                            <input type="checkbox" name="ids[]" value="{$li['id']}">
+                        </td>
+                        <td>
+                            {$li['ordersn']}
+                        </td>
+                        <td>
+                            {$li['nickname']}
+                        </td>
+                        <td>
+                            {if $li['level']==1}
+                            <span class="label label-success">好评</span>
+                            {elseif $li['level']==2}
+                            <span class="label label-warning">中评</span>
+                            {elseif $li['level']==3}
+                            <span class="label label-danger">差评</span>
+                            {/if}
+                        </td>
+                        <td>
+                            {$li['message']}
+                        </td>
+                        <td>{$li['createtime']}</td>
+                        <td>
+                            <div class="btn-group">
+                                <a href="{php echo $this->createWebUrl('grade', array('act' => 'delete', 'id' => $li['id']))}" title="删除" class="btn btn-default btn-sm" onclick="return confirm('此操作不可恢复，确认吗？'); return false;">删除</a>
+                            </div>
+                        </td>
+                    </tr>
+                    {/loop}
+                    {/if}
+                    </tbody>
+                </table>
+            </div>
+            <div class="panel-footer">
+                总共 <strong>{$total}</strong> 条
+            </div>
+        </div>
+        <div class="bottom-row">
+            <div class="col-xs-4 text-left" style="padding: 0">
+                {if !empty($list)}
+                <input name="batch_submit" type="submit" value="批量删除" onclick="return confirm('此操作不可恢复，确认吗？')" class="btn btn-danger" />
+                <input type="hidden" name="token" value="{$_W['token']}" />
+                {/if}
+            </div>
+            <div class="col-xs-8 text-right" style="padding: 0">
+                {$pager}
+            </div>
+        </div>
+    </form>
+</div>
+<script type="text/javascript">
+    require(['jquery'],function($){
+        //全选
+        $('input[name=checkall]').click(function(){
+            if ($(this).prop('checked')) {
+                $('input[name="ids[]"]').prop('checked', true);
+            } else {
+                $('input[name="ids[]"]').prop('checked', false);
+            }
+        });
+    });
+</script>

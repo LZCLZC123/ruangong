@@ -1,0 +1,37 @@
+{template 'common/header'}
+<div class="page-group">
+    <div class="page superpage_{$do}" id="superpage_{$do}_{$act}">
+        {template 'common/title'}
+        <div class="content">
+            <form class="post-form" action="" method="post">
+                <div class="weui-cells weui-cells_form">
+                    <div class="weui-cell weui-cell_select weui-cell_select-after">
+                        <div class="weui-cell__hd">
+                            <label class="weui-label">评价等级</label>
+                        </div>
+                        <div class="weui-cell__bd">
+                            <select class="weui-select" name="level">
+                                <option value="1">好评</option>
+                                <option value="2">中评</option>
+                                <option value="3">差评</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="weui-cells weui-cells_form">
+                        <div class="weui-cell">
+                            <div class="weui-cell__bd">
+                                <textarea class="weui-textarea" name="message" placeholder="评价内容" rows="3"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="weui-btn-area">
+                    <a class="weui-btn weui-btn_primary btn_post" style="background: #f60;" data-url="{$_W['siteurl']}" data-backurl="{php echo $this->createMobileUrl('order', array('act' => 'display', 'type' => 'buy'))}">确定</a>
+                    <input type="hidden" name="token" value="{$_W['token']}">
+                    <input type="hidden" name="orderid" value="{$_GPC['orderid']}">
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{template 'common/footer'}

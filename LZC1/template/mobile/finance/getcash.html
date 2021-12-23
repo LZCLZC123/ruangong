@@ -1,0 +1,100 @@
+{template 'common/header'}
+<div class="page-group">
+    <div class="page superpage_{$do}" id="superpage_{$do}_{$act}">
+        {template 'common/title'}
+        <div class="content">
+            <form class="post-form" action="" method="post">
+                <input type="hidden" name="getcsh_setting" data-limit="{php echo $result['getcash']['limit']?$result['getcash']['limit']:0}" data-fee-rate="{php echo $result['getcash']['fee_rate']?($result['getcash']['fee_rate']/100):0}" data-fee-min="{php echo $result['getcash']['fee_min']?$result['getcash']['fee_min']:0}" data-fee-max="{php echo $result['getcash']['fee_min']?$result['getcash']['fee_max']:0}" data-balance="{$result['member']['balance']}" class="font7">
+                <div class="weui-cells weui-cells_form">
+                    <div class="weui-cell">
+                        <div class="weui-cell__hd"><label class="weui-label">账户余额</label></div>
+                        <div class="weui-cell__bd">
+                            <input class="weui-input" type="text" disabled value="￥{$result['member']['balance']}">
+                        </div>
+                    </div>
+                    <div class="weui-cell weui-cell_select weui-cell_select-after">
+                        <div class="weui-cell__hd">
+                            <label class="weui-label">提现账户</label>
+                        </div>
+                        <div class="weui-cell__bd">
+                            <select class="weui-select" name="account_type">
+                                {if !empty($result['getcash']['getcash_type'])}
+                                {loop $result['getcash']['getcash_type'] $li}
+                                <option value="{$li['type']}">{$li['title']}</option>
+                                {/loop}
+                                {/if}
+                            </select>
+                        </div>
+                    </div>
+                    <div class="hide-item alipay account_wrap">
+                        <div class="weui-cell">
+                            <div class="weui-cell__hd"><label class="weui-label">账号</label></div>
+                            <div class="weui-cell__bd">
+                                <input class="weui-input" type="text" name="alipay_account" placeholder="支付宝账号">
+                            </div>
+                        </div>
+                        <div class="weui-cell">
+                            <div class="weui-cell__hd"><label class="weui-label">昵称</label></div>
+                            <div class="weui-cell__bd">
+                                <input class="weui-input" type="text" name="alipay_username" placeholder="支付宝昵称">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="hide-item bank account_wrap">
+                        <div class="weui-cell">
+                            <div class="weui-cell__hd"><label class="weui-label">银行名称</label></div>
+                            <div class="weui-cell__bd">
+                                <input class="weui-input" type="text" name="bank_name" placeholder="银行名称">
+                            </div>
+                        </div>
+                        <div class="weui-cell">
+                            <div class="weui-cell__hd"><label class="weui-label">开户行</label></div>
+                            <div class="weui-cell__bd">
+                                <input class="weui-input" type="text" name="bank_account" placeholder="开户行">
+                            </div>
+                        </div>
+                        <div class="weui-cell">
+                            <div class="weui-cell__hd"><label class="weui-label">银行卡号</label></div>
+                            <div class="weui-cell__bd">
+                                <input class="weui-input" type="number" name="bank_cardno" placeholder="银行卡号">
+                            </div>
+                        </div>
+                        <div class="weui-cell">
+                            <div class="weui-cell__hd"><label class="weui-label">开卡人姓名</label></div>
+                            <div class="weui-cell__bd">
+                                <input class="weui-input" type="text" name="bank_username" placeholder="开户人姓名">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="weui-cell">
+                        <div class="weui-cell__hd"><label class="weui-label">提现金额</label></div>
+                        <div class="weui-cell__bd">
+                            <input class="weui-input" type="number" name="money" placeholder="最低金额大于{php echo $result['getcash']['limit']?$result['getcash']['limit']:0}元">
+                        </div>
+                    </div>
+                    <div class="weui-cells weui-cells_form">
+                        <div class="weui-cell">
+                            <div class="weui-cell__bd">
+                                <textarea class="weui-textarea" name="remark" placeholder="备注" rows="3"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {if $result['getcash']['fee_rate']}
+                <div class="weui-cells__title">
+                    服务费：<span class="fee">0</span>元（每笔交易的{php echo $result['getcash']['fee_rate']}%
+                    {if $result['getcash']['fee_min'] > 0 || $result['getcash']['fee_max'] > 0}
+                    <span>，最低{$result['getcash']['fee_min']}元，最高{$result['getcash']['fee_max']}元</span>
+                    {/if}
+                    ）
+                </div>
+                {/if}
+                <div class="weui-btn-area">
+                    <a class="weui-btn weui-btn_primary btn_post" href="javascript:;">确定</a>
+                    <input type="hidden" name="token" value="{$_W['token']}">
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{template 'common/footer'}

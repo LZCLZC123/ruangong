@@ -1,0 +1,252 @@
+{template 'common/header'}
+<div class="page-group">
+    <div class="page superpage_{$do}" id="superpage_{$do}_{$act}">
+        {template 'common/title'}
+        <div class="content">
+            <div class="before-post {if !empty($detail)}hide-item{/if}">
+                <div class="big-title">发布须知</div>
+                <div class="detail-text">{php echo htmlspecialchars_decode($this->module['config']['base']['notice'])}</div>
+                <!--<div class="post-category">
+                    <div class="cate-item post-book">
+                        <text class="iconfont icon-book"></text>
+                        <div class="item-name">发布图书</div>
+                    </div>
+                    <div class="cate-item post-other">
+                        <text class="iconfont icon-other"></text>
+                        <div class="item-name">发布其他</div>
+                    </div>
+                </div>-->
+                <div class="book-btnarea">
+                    <button class="weui-btn post-next" type="primary" formType="submit">下一步</button>
+                </div>
+            </div>
+            <form class="post-form {if empty($detail)}hide-item{/if}" action="" method="post">
+                <input type="hidden" name="serverId" id="serverId" value=""/>
+                <input type="hidden" name="latitude" id="latitude" value="{$detail['lat']}"/>    <!--地理纬度-->
+                <input type="hidden" name="longitude" id="longitude" value="{$detail['lng']}"/>    <!--地理经度-->
+                <div class="weui-cells__title"><span class="text-red">*</span>物品标题</div>
+                <div class="weui-cells">
+                    <div class="weui-cell">
+                        <div class="weui-cell__bd">
+                            <input class="weui-input" type="text" name="title" placeholder="起一个吸引人的标题吧" value="{$detail['title']}">
+                        </div>
+                    </div>
+                </div>
+                <div class="weui-cells__title">物品描述</div>
+                <div class="weui-cells weui-cells_form">
+                    <div class="weui-cell">
+                        <div class="weui-cell__bd">
+                            <textarea class="weui-textarea" name="description" placeholder="请输入物品的详细描述" rows="3">{$detail['description']}</textarea>
+                            <div class="img-box">
+                                <span class="item-img-wrap">
+                                    {if !empty($detail['album'])}
+                                    {loop $detail['album'] $li}
+                                    <img src="{php echo tomedia($li)}" alt="">
+                                    {/loop}
+                                    {/if}
+                                </span>
+                                <span class="add-img">
+                                    <img src="{$_W[siteroot]}addons/superman_hand2/template/mobile/images/photo.png" alt="">
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="weui-cells weui-cells_form">
+                    <div class="weui-cell weui-cell_select weui-cell_select-after">
+                        <div class="weui-cell__hd">
+                            <label class="weui-label">物品分类</label>
+                        </div>
+                        <div class="weui-cell__bd">
+                            <select class="weui-select" name="category">
+                                <option value="0"> 请选择分类 </option>
+                                {if !empty($category)}
+                                {loop $category $li}
+                                <option value="{$li['id']}" {if $detail['cid'] == $li['id']}selected{/if}>{$li['title']}</option>
+                                {/loop}
+                                {/if}
+                            </select>
+                        </div>
+                    </div>
+                    <!--<div class="weui-cell">
+                        <div class="weui-cell__hd"><label class="weui-label">所在地址</label></div>
+                        <div class="weui-cell__bd">
+                            <input class="weui-input" type="text" name="address" value="{$detail['address']}">
+                        </div>
+                        {if !empty($district)}
+                        <div class="hide-item district">
+                            {loop $district $li}
+                            <span>{$li['title']}</span>
+                            {/loop}
+                        </div>
+                        {/if}
+                    </div>-->
+                    <div class="weui-cell weui-cell_select weui-cell_select-after">
+                        <div class="weui-cell__hd">
+                            <label class="weui-label">兑换方式</label>
+                        </div>
+                        <div class="weui-cell__bd">
+                            <select class="weui-select buy-type" name="buy_type">
+                                <option value="0" {if $detail['buy_type'] == 0}selected{/if}>现金</option>
+                                {if !isset($this->module['config']['base']['credit_off']) || $this->module['config']['base']['credit_off'] == 0}
+                                <option value="1" {if $detail['buy_type'] == 1}selected{/if}>积分</option>
+                                {/if}
+                            </select>
+                        </div>
+                    </div>
+                    <div class="cash_wrap {if $detail['buy_type'] == 1}hide-item{/if}">
+                        <div class="weui-cell">
+                            <div class="weui-cell__hd"><label class="weui-label">价格</label></div>
+                            <div class="weui-cell__bd">
+                                <input class="weui-input" type="number" name="price" placeholder="不填或填0则默认为面议" value="{$detail['price']}">
+                            </div>
+                        </div>
+                        <div class="weui-cell weui-cell_select weui-cell_select-after">
+                            <div class="weui-cell__hd">
+                                <label class="weui-label">单位</label>
+                            </div>
+                            <div class="weui-cell__bd">
+                                <select class="weui-select" name="unit">
+                                    <option value="0" {if $detail['unit'] == 0}selected{/if}> 元 </option>
+                                    <option value="1" {if $detail['unit'] == 1}selected{/if}>美元</option>
+                                </select>
+                            </div>
+                        </div>
+                        {if $this->plugin_module['plugin_wechat']['module'] && !$this->plugin_module['plugin_wechat']['module']['is_delete'] && (!isset($this->module['config']['base']['online_close']) || $this->module['config']['base']['online_close'] == 0)}
+                        <div class="weui-cell weui-cell_select weui-cell_select-after">
+                            <div class="weui-cell__hd">
+                                <label class="weui-label">开启在线收款</label>
+                            </div>
+                            <div class="weui-cell__bd">
+                                <select class="weui-select" name="wechatpay">
+                                    <option value="1" {if $detail['wechatpay'] == 1}selected{/if}>是</option>
+                                    <option value="0" {if $detail['wechatpay'] == 0}selected{/if}>否</option>
+                                </select>
+                            </div>
+                        </div>
+                        {/if}
+                    </div>
+                    <div class="credit_wrap {if $detail['buy_type'] == 0}hide-item{/if}">
+                        <div class="weui-cell">
+                            <div class="weui-cell__hd"><label class="weui-label">所需积分</label></div>
+                            <div class="weui-cell__bd">
+                                <input class="weui-input" type="number" name="credit" placeholder="不填或填0则默认为面议" value="{$detail['credit']}">
+                            </div>
+                        </div>
+                    </div>
+                    {if $this->plugin_module['plugin_ad']['module'] && !$this->plugin_module['plugin_ad']['module']['is_delete']}
+                    <div class="weui-cell weui-cell_select weui-cell_select-after">
+                        <div class="weui-cell__hd">
+                            <label class="weui-label">付费置顶</label>
+                        </div>
+                        <div class="weui-cell__bd">
+                            <select class="weui-select" name="set_top">
+                                <option value="0" selected>否</option>
+                                <option value="1">是</option>
+                            </select>
+                        </div>
+                    </div>
+                    {/if}
+                </div>
+                {if $this->module['config']['post']['fields_on'] == 1}
+                <div class="add_field {if !empty($detail)}hide-item{/if}">
+                    {loop $this->module['config']['post']['form_fields'] $key $field}
+                    {if $field['type'] == 'text'}
+                    <div class="weui-cells">
+                        <div class="weui-cell">
+                            <div class="weui-cell__hd"><label class="weui-label">{$field['title']}</label></div>
+                            <div class="weui-cell__bd">
+                                <input class="weui-input fields_value" type="text" name="{$field['title']}" placeholder="{$field['extra']['placeholder']}" data-fields-key="{$key}">
+                            </div>
+                        </div>
+                    </div>
+                    {/if}
+                    {if $field['type'] == 'textarea'}
+                    <div class="weui-cells__title">{$field['title']}</div>
+                    <div class="weui-cells weui-cells_form">
+                        <div class="weui-cell">
+                            <div class="weui-cell__bd">
+                                <textarea class="weui-textarea fields_value" placeholder="{$field['extra']['placeholder']}" rows="3" name="{$field['title']}" data-fields-key="{$key}"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                    {/if}
+                    {if $field['type'] == 'radio'}
+                    <div class="weui-cells__title">{$field['title']}</div>
+                    <div class="weui-cells weui-cells_radio">
+                        {loop $field['extra']['option'] $li}
+                        <label class="weui-cell weui-check__label">
+                            <div class="weui-cell__bd">
+                                <p>{$li}</p>
+                            </div>
+                            <div class="weui-cell__ft">
+                                <input type="radio" class="weui-check fields_value" data-fields-key="{$key}" name="{$field['title']}" value="{$li}">
+                                <span class="weui-icon-checked"></span>
+                            </div>
+                        </label>
+                        {/loop}
+                    </div>
+                    {/if}
+                    {if $field['type'] == 'checkbox'}
+                    <div class="weui-cells__title">{$field['title']}</div>
+                    <div class="weui-cells weui-cells_checkbox">
+                        {loop $field['extra']['option'] $li}
+                        <label class="weui-cell weui-check__label">
+                            <div class="weui-cell__hd">
+                                <input type="checkbox" class="weui-check fields_value" data-fields-key="{$key}" name="{$field['title']}" value="{$li">
+                                <i class="weui-icon-checked"></i>
+                            </div>
+                            <div class="weui-cell__bd">
+                                <p>{$li}</p>
+                            </div>
+                        </label>
+                        {/loop}
+                    </div>
+                    {/if}
+                    {if $field['type'] == 'single_select'}
+                    <div class="weui-cell weui-cell_select weui-cell_select-after">
+                        <div class="weui-cell__hd">
+                            <label class="weui-label">{$field['title']}</label>
+                        </div>
+                        <div class="weui-cell__bd">
+                            <select class="weui-select fields_value" data-fields-key="{$key}">
+                                {loop $field['extra']['option'] $li}
+                                <option value="{$li}"> {$li} </option>
+                                {/loop}
+                            </select>
+                        </div>
+                    </div>
+                    {/if}
+                    {/loop}
+                </div>
+                {/if}
+                {if empty($_GPC['id'])}
+                <label for="weuiAgree" class="weui-agree">
+                    <input id="weuiAgree" type="checkbox" name="rule" class="weui-agree__checkbox" checked>
+                    <span class="weui-agree__text">
+                        我已阅读并同意<a href="javascript:void(0);" class="rule">《物品发布公约》</a>
+                    </span>
+                </label>
+                {/if}
+                <div class="weui-btn-area">
+                    <a class="weui-btn weui-btn_primary btn_post" href="javascript:" data-url="{php echo $this->createMobileUrl('item', array('act' => 'post'))}" data-settop-url="{php echo $this->createMobileUrl('pay_top')}" data-redirect-url="{php echo $this->createMobileUrl('home')}" data-id="{$detail['id']}">确定</a>
+                    <input type="hidden" name="token" value="{$_W['token']}">
+                </div>
+            </form>
+            <div class="back-home">
+                <a href="{php echo $this->createMobileUrl('home')}" data-no-cache="true"><span class="iconfont icon-index"></span></a>
+            </div>
+        </div>
+    </div>
+    <div class="popup popup-rule">
+        <div class="content content-padded">
+            <div style="text-align: right;">
+                <a href="#" class="close-popup color-orange">
+                    <span class="iconfont icon-close"></span>
+                </a>
+            </div>
+            <div class="pop-content">{php echo htmlspecialchars_decode($this->module['config']['base']['rule'])}</div>
+        </div>
+    </div>
+</div>
+{template 'common/footer'}

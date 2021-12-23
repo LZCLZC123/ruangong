@@ -1,0 +1,9 @@
+{template 'common/header'}
+<ul class="nav nav-tabs">
+    <li class="{if $act == 'display'}active{/if}">
+        <a href="{php echo $this->createWebUrl('plugin',array('act' => 'display'));}">列表</a>
+    </li>
+</ul>
+{template 'web/default/'.$do.'/'.$act}
+{template 'web/default/common/footer'}
+{template 'common/footer'}

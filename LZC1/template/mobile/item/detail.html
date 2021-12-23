@@ -1,0 +1,275 @@
+{template 'common/header'}
+<div class="page-group">
+    <div class="page superpage_{$do}" id="superpage_{$do}_{$act}">
+        {template 'common/title'}
+        <div class="content infinite-scroll">
+            <div class="item-detail" data-cover="{php echo tomedia($detail['cover'])}" data-url="{php echo $_W['siteurl']}" data-img-url="{php echo $_W['siteroot']}attachment/">
+                <!--<div class="swiper-container" id="detail_swiper_warp">
+                    <div class="swiper-wrapper">
+                        {if !empty($detail['album'])}
+                        {loop $detail['album'] $li}
+                        <div class="swiper-slide">
+                            <a href="#" class="preview-img">
+                                <img src="{php echo tomedia($li)}">
+                            </a>
+                        </div>
+                        {/loop}
+                        {/if}
+                    </div>
+                </div>-->
+                <div class="detail-item">
+                    <div class="detail-title">
+                        {$detail['title']}
+                    </div>
+                    <div class="detail-sub clearfix">
+                        <div class="float-left">
+                            <span>{$detail['time_diff']}前发布</span>
+                            {if $item_view == 1}<span>{$detail['page_view']}人浏览</span>{/if}
+                        </div>
+                        {if !empty($detail['album'])}
+                        <div class="float-right">
+                            <div class="show-pic">点击查看图片</div>
+                            {loop $detail['album'] $li}
+                            <div class="hide-item pic-item">{php echo tomedia($li)}</div>
+                            {/loop}
+                        </div>
+                        {/if}
+                    </div>
+                    {if $detail['description'] || $detail['summary']}
+                    <div class="detail-desc">
+                        {if $detail['description']}
+                        {$detail['description']}
+                        {else}
+                        {$detail['summary']}
+                        {/if}
+                    </div>
+                    {/if}
+                    {if !empty($detail['form_fields'])}
+                    {loop $detail['form_fields'] $li}
+                    <div class="field-item">
+                        <div class="inline">{$li['title']}：</div>
+                        <div class="inline">{$li['value']}</div>
+                    </div>
+                    {/loop}
+                    {/if}
+                    {if $detail['status'] == 2}
+                    <div class="item-status">
+                        <img src="{$_W[siteroot]}addons/superman_hand2/template/mobile/images/yz.png">
+                    </div>
+                    {/if}
+                    {if $detail['status'] == -2}
+                    <div class="item-status">
+                        <img src="{$_W[siteroot]}addons/superman_hand2/template/mobile/images/sc.png">
+                    </div>
+                    {/if}
+                </div>
+                <div class="card-footer">
+                    <div class="float-left">
+                        <div class="show-map" data-lng="{$detail['lng']}" data-lat="{$detail['lat']}">
+                            <i class="iconfont icon-pos"></i>{$detail['address']}
+                        </div>
+                    </div>
+                    <div class="float-right">
+                        <div class="inline favour" data-status="{$detail['is_favour']}">
+                            <i class="iconfont {if $detail['is_favour']}icon-praise1{else}icon-praise{/if}"></i>点赞
+                        </div>
+                        <div class="inline collect" data-status="{$detail['is_collect']}">
+                            <i class="iconfont {if $detail['is_collect']}icon-fav1{else}icon-fav{/if}"></i>收藏
+                        </div>
+                    </div>
+                </div>
+                {if $detail['order']}
+                <div class="order-info">
+                    <div class="content-block-title">买家信息</div>
+                    <div class="list-block">
+                        <ul>
+                            <li class="item-content">
+                                <div class="item-inner">
+                                    <div class="item-title font75">昵称</div>
+                                    <div class="item-after font75">{$detail['order']['name']}</div>
+                                </div>
+                            </li>
+                            <li class="item-content">
+                                <div class="item-inner">
+                                    <div class="item-title font75">手机号</div>
+                                    <div class="item-after font75">{$detail['order']['mobile']}</div>
+                                </div>
+                            </li>
+                            <li class="item-content">
+                                <div class="item-inner">
+                                    <div class="item-title font75">地址</div>
+                                    <div class="item-after font75">{$detail['order']['address']}</div>
+                                </div>
+                            </li>
+                            <li class="item-content">
+                                <div class="item-inner">
+                                    <div class="item-title font75">备注</div>
+                                    <div class="item-after font75">{$detail['order']['reply']}</div>
+                                </div>
+                            </li>
+                            {if $detail['order']['reason']}
+                            <li class="item-content">
+                                <div class="item-inner">
+                                    <div class="item-title font75">取消原因</div>
+                                    <div class="item-after font75">{$detail['order']['reason']}</div>
+                                </div>
+                            </li>
+                            {/if}
+                        </ul>
+                    </div>
+                </div>
+                {/if}
+                <div class="seller-info clearfix">
+                    <div class="seller-avatar">
+                        <img src="{$detail['avatar']}" alt="">
+                    </div>
+                    <div class="seller-desc">
+                        <div class="seller-top clearfix">
+                            <span class="seller-name">{$detail['nickname']}</span>
+                            <span class="seller-credit">坐拥：{$detail['credit']}积分</span>
+                        </div>
+                        <div class="seller-bottom">
+                            <span>共卖出{$detail['sell_count']}件宝贝</span>
+                            {if $detail['level_one'] > 0 || $detail['level_two'] > 0 || $detail['level_three'] > 0}
+                            <span>收获{$detail['level_one']}好评，{$detail['level_one']}中评，{$detail['level_one']}差评</span>
+                            {/if}
+                        </div>
+                    </div>
+                </div>
+                <div class="middle-panel">
+                    <div class="middle-btn report">内容违规，我要举报</div>
+                    <div class="middle-btn leave-message">很感兴趣，我要留言</div>
+                </div>
+                {if !empty($notice)}
+                <div class="list-block media-list topline_wrap">
+                    <ul>
+                        <li>
+                            <div class="item-content">
+                                <div class="item-media">
+                                    <img class="notice_img" src="https://img.yzcdn.cn/public_files/2017/8/10/6af5b7168eed548100d9041f07b7c616.png"/>
+                                </div>
+                                <div class="item-inner notice_wrap">
+                                    <ul>
+                                        {loop $notice $li}
+                                        <li class="text-overflow font6">
+                                            <a href="" class="color-default open-notice">
+                                                <span class="notice-title">{$li['title']}</span>
+                                                <span class="notice-content">{php echo htmlspecialchars_decode($li['content'])}</span>
+                                            </a>
+                                        </li>
+                                        {/loop}
+                                    </ul>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+                {/if}
+                <div class="message-box">
+                    <div class="message-title">留言墙</div>
+                    <div class="list-block media-list">
+                        <ul>
+                            {if empty($list)}
+                            <li>
+                                <div class="card">
+                                    <div class="no-message">
+                                        <p>还没有人来留言，赶紧去抢沙发吧</p>
+                                        <!--<div class="message-btn leave-message prompt-ok-cancel">留言</div>-->
+                                    </div>
+                                </div>
+                            </li>
+                            {else}
+                            {loop $list $li}
+                            <li>
+                                <div class="card">
+                                    <div class="avatar-title">
+                                        <div class="avatar-img">
+                                            <img src="{$li['avatar']}">
+                                        </div>
+                                        <div class="title-name">{$li['nickname']}</div>
+                                    </div>
+                                    <div class="card-content">
+                                        <div class="card-content-inner">
+                                            <p>{$li['message']}</p>
+                                            {if $li['reply']}
+                                            <div class="item-message">
+                                                <p>主人回复：{$li['reply']}</p>
+                                            </div>
+                                            {/if}
+                                        </div>
+                                    </div>
+                                    <div class="card-footer">
+                                        <div class="float-left">
+                                            <a href="#" class="link font-corner">{$li['time_diff']}前来过</a>
+                                        </div>
+                                        {if $detail['seller_uid'] == $_W['member']['uid'] && !$li['reply']}
+                                        <div class="float-right">
+                                            <a href="#" class="reply-btn prompt-ok-cancel" data-id="{$li['id']}">回复</a>
+                                        </div>
+                                        {/if}
+                                    </div>
+                                </div>
+                            </li>
+                            {/loop}
+                            {/if}
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="back-home">
+            <a href="{php echo $this->createMobileUrl('home')}" data-no-cache="true"><span class="iconfont icon-index"></span></a>
+        </div>
+        <div class="item-bar action-bar" data-url="{php echo $_W['siteurl']}">
+            <div class="flex-item">
+                <div class="bt-price">
+                    {if $detail['buy_type'] == 1}
+                        {if $detail['credit'] > 0}
+                            需付：{$detail['credit']}积分
+                        {else}
+                            价格：面议
+                        {/if}
+                    {else}
+                        {if $detail['price'] > 0}
+                            {if $detail['unit'] == 1}
+                                需付：{$detail['price']}美元
+                            {else}
+                                需付：{$detail['price']}元
+                            {/if}
+                        {else}
+                            价格：面议
+                        {/if}
+                    {/if}
+                </div>
+            </div>
+            <div class="flex-item">
+                {if !empty($_W['member']) && $detail['seller_uid'] == $_W['member']['uid']}
+                <a class="bottom-btn status-btn" href="#" data-url="{php echo $this->createMobileUrl('item', array('act' => 'detail', 'id' => $detail['id']))}" data-edit-url="{php echo $this->createMobileUrl('item', array('act' => 'post', 'id' => $detail['id']))}" data-type="1">{if $detail['status'] == 2}已转让{else if $detail['status'] == -1}已下架{else}操作{/if}</a>
+                {else}
+                    {if $detail['status'] == 1}
+                        {if $detail['buy_type'] == 1 && $detail['credit'] > 0}
+                <a class="bottom-btn credit-btn external" href="{php echo $this->createMobileUrl('item', array('act' => 'confirm', 'id' => $detail['id'], 'type' => 'credit'))}">我要兑换</a>
+                        {/if}
+                        {if $detail['buy_type'] == 0 && $detail['wechatpay'] == 1 && $detail['price'] > 0}
+                <a class="bottom-btn cash-btn external" href="{php echo $this->createMobileUrl('item', array('act' => 'confirm', 'id' => $detail['id'], 'type' => 'cash'))}">我要买</a>
+                        {/if}
+                <a class="bottom-btn chat-btn" href="#" data-url="{php echo $this->createMobileUrl('item', array('act' => 'detail', 'id' => $detail['id']))}"  data-from-uid="{php echo $_W['member']['uid']}">和TA聊聊</a>
+                    {/if}
+                {/if}
+            </div>
+        </div>
+        {template 'common/share'}
+    </div>
+    <div class="popup popup-notice">
+        <div class="content content-padded">
+            <div style="text-align: right;">
+                <a href="#" class="close-popup color-orange">
+                    <span class="iconfont icon-close"></span>
+                </a>
+            </div>
+            <p class="pop-title"></p>
+            <div class="pop-content"></div>
+        </div>
+    </div>
+</div>
+{template 'common/footer'}

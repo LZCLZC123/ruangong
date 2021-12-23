@@ -1,0 +1,94 @@
+{template 'common/header'}
+<div class="page-group">
+    <div class="page superpage_{$do}" id="superpage_{$do}_{$act}">
+        {template 'common/title'}
+        <div class="content">
+            <div class="list-block" style="margin: 0;">
+                <form action="" method="post">
+                    <ul class="item-form">
+                        <li>
+                            <div class="item-content">
+                                <div class="item-inner">
+                                    <div class="item-title label">物品标题</div>
+                                    <div class="item-input">
+                                        <input name="title" type="text" value="{$item['title']}" readonly>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="item-content">
+                                <div class="item-inner">
+                                    <div class="item-title label">物品分类</div>
+                                    <div class="item-input" id="cate_list">
+                                        <input name="title" type="text" value="{$item['category']}" readonly>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="item-content">
+                                <div class="item-inner">
+                                    <div class="item-title label">物品描述</div>
+                                    <div class="item-input">
+                                        <textarea name="description" cols="30" rows="10" readonly>{$item['description']}</textarea>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="item-content update_img_wrap">
+                            <div class="item-inner">
+                                <div class="item-title label">物品图片</div>
+                                <div class="item-input">
+                                    <div class="set-item-img">
+                                        {if !empty($item['album'])}
+                                        {loop $item['album'] $li}
+                                        {if !empty($li)}
+                                        <img src="{php echo tomedia($li)}" style="width: 30%; margin: 0 2% 2% 0;">
+                                        {/if}
+                                        {/loop}
+                                        {/if}
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="item-content">
+                                <div class="item-inner">
+                                    <div class="item-title label">审核状态</div>
+                                    <div class="item-input">
+                                        <label class="radio">
+                                            <input type="radio" name="status" value="1" checked> 通过
+                                        </label>
+                                        <label class="radio">
+                                            <input type="radio" name="status" value="0"> 拒绝
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="reason" style="display: none;">
+                            <div class="item-content">
+                                <div class="item-inner">
+                                    <div class="item-title label">原因</div>
+                                    <div class="item-input">
+                                        <textarea name="reason" cols="30" rows="10">{$item['reason']}</textarea>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                    <div class="content-padded">
+                        <div class="row">
+                            <div class="col-100">
+                                <a href="#" data-url="{php echo $this->createMobileUrl('item', array('act' => 'audit', 'id' => $item['id']))}" class="button button-fill button-big btn_post">提交</a>
+                                <input type="hidden" name="token" value="{$_W['token']}">
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{template 'common/footer'}

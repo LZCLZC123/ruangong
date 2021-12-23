@@ -1,0 +1,63 @@
+{template 'common/header'}
+<div class="page-group">
+    <div class="page superpage_{$do}" id="superpage_{$do}_{$act}">
+        {template 'common/title'}
+        <div class="content infinite-scroll">
+            {if !empty($list)}
+            {loop $list $li}
+            <div class="content-block-title">支付时间：{$li['paytime']}</div>
+            <div class="list-block">
+                <ul>
+                    <li class="item-content">
+                        <div class="item-inner">
+                            <div class="item-title">置顶位置</div>
+                            <div class="item-after">{$li['pay_position']['title']}</div>
+                        </div>
+                    </li>
+                    <li class="item-content">
+                        <div class="item-inner">
+                            <div class="item-title">置顶时间</div>
+                            <div class="item-after">{$li['total']}{$li['type']}</div>
+                        </div>
+                    </li>
+                    <li class="item-content">
+                        <div class="item-inner">
+                            <div class="item-title">支付金额</div>
+                            <div class="item-after">{$li['all_price']}</div>
+                        </div>
+                    </li>
+                    <li class="item-content">
+                        <div class="item-inner">
+                            <div class="item-title">置顶状态</div>
+                            <div class="item-after">
+                                {if $li['audit'] == 0}待审核{/if}
+                                {if $li['audit'] == 1}置顶中{/if}
+                                {if $li['audit'] == -1}已拒绝{/if}
+                                {if $li['audit'] == -2}已过期{/if}
+                            </div>
+                        </div>
+                    </li>
+                    {if $li['audit'] == 1 || $li['audit'] == -2}
+                    <li class="item-content">
+                        <div class="item-inner">
+                            <div class="item-title">审核时间</div>
+                            <div class="item-after">{$li['audittime']}</div>
+                        </div>
+                    </li>
+                    <li class="item-content">
+                        <div class="item-inner">
+                            <div class="item-title">过期时间</div>
+                            <div class="item-after">{$li['expiretime']}</div>
+                        </div>
+                    </li>
+                    {/if}
+                </ul>
+            </div>
+            {/loop}
+            {else}
+            <div class="no-data">空空如也</div>
+            {/if}
+        </div>
+    </div>
+</div>
+{template 'common/footer'}

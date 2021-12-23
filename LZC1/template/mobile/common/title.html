@@ -1,0 +1,26 @@
+{if $do == 'home' || $do == 'item' && $act == 'list'}
+<header class="bar bar-nav">
+    <!--商品列表搜索条-->
+    <div class="bar list_search_style {if $do == 'item'}w90{/if}">
+        <form action="" method="get" class="clearfix search item_search_form">
+            <input type="hidden" name="i" value="{$_W['uniacid']}"/>
+            <input type="hidden" name="c" value="entry"/>
+            <input type="hidden" name="do" value="item"/>
+            <input type="hidden" name="m" value="superman_hand2"/>
+            <div class="searchbar">
+                <button type="submit" class="button button-primary col-20 searchbar-cancel" style="top: 0; width: 2.5rem;height: 1.5rem;">搜索</button>
+                <div class="search-input">
+                    <label class="icon icon-search"></label>
+                    <input type="search" name="kw" placeholder='输入关键字...' value="{$_GPC['kw']}"/>
+                </div>
+            </div>
+        </form>
+    </div>
+    {if $do == 'item' && $act == 'list'}
+    <div class="open-panel open-category">
+        <span class="iconfont font9 icon-category"></span>
+        <div class="font4">分类</div>
+    </div>
+    {/if}
+</header>
+{/if}

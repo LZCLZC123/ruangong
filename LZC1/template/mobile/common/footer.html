@@ -1,0 +1,32 @@
+<div id="gotop" style="display: none;"><span class="iconfont icon-up"></span></div>
+<script src="//g.alicdn.com/msui/sm/0.6.2/js/sm.min.js"></script>
+<script src="//g.alicdn.com/msui/sm/0.6.2/js/sm-extend.min.js"></script>
+<script src="//g.alicdn.com/msui/sm/0.6.2/js/sm-city-picker.min.js"></script>
+<script src="//cdn.bootcss.com/underscore.js/1.8.3/underscore-min.js"></script>
+{php echo $this->superman['common_js']}
+{php echo $this->superman['main_js']}
+
+{if !defined('LOCAL_DEVELOPMENT')}
+{if isset($this->module['config']['base']['stat_switch']) && $this->module['config']['base']['stat_switch'] == 1 && $this->module['config']['base']['stat_code']}
+{php echo htmlspecialchars_decode($this->module['config']['base']['stat_code'])}
+{/if}
+{/if}
+{if defined('LOCAL_PACKAGE')}
+<script>
+    $.get('{$_W["siteroot"]}superman/package.php?module_name=superman_hand2&refresh=1&i={$_W['uniacid']}');
+</script>
+{/if}
+<script>
+    //每天登录送积分
+    /*$.ajax({
+        url: window.sysinfo.crediturl,
+        dataType: 'json',
+        success: function (resp) {
+            if (resp.errno == 0) {
+                $.toast(resp.errmsg)
+            }
+        }
+    })*/
+</script>
+</body>
+</html>

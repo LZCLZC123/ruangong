@@ -1,0 +1,34 @@
+{template 'common/header'}
+<div class="page-group">
+    <div class="page page-current superpage_{$do}" id="superpage_{$do}_{$act}">
+        {template 'common/nav'}
+        {template 'common/title'}
+        <div class="content infinite-scroll" data-flag="0" data-page="1" data-list-url="{php echo $this->createMobileUrl('my', array('act' => 'item_list'))}" data-detail-url="{php echo $this->createMobileUrl('item', array('act' => 'detail'))}" data-img-url="{php echo $_W['siteroot']}attachment/">
+            <div class="list-block media-list no-margin">
+                <ul id="credit-list">
+                    {if !empty($list)}
+                    {loop $list $li}
+                    <li class="item-content font75">
+                        <div class="item-inner">
+                            <div class="item-title-row">
+                                <div class="item-title">{$li['remark']}</div>
+                                <div class="item-after">{$li['num']}</div>
+                            </div>
+                            <div class="item-text">{$li['createtime']}</div>
+                        </div>
+                    </li>
+                    {/loop}
+                    {else}
+                    <li><div class="no-data">空空如也</div></li>
+                    {/if}
+                </ul>
+            </div>
+            {if count($list)==$pagesize}
+            <div class="infinite-scroll-preloader">
+                <div class="preloader"></div>
+            </div>
+            {/if}
+        </div>
+    </div>
+</div>
+{template 'common/footer'}

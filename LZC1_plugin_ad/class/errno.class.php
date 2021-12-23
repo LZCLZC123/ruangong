@@ -1,0 +1,2 @@
+<?php
+ defined("\x49\116\x5f\111\101") or exit("\x41\x63\143\145\163\x73\40\x44\x65\156\151\145\144"); class Superman_Hand2_Plugin_AdErrno { const OK = 0; const SYSTEM_ERROR = 1; const PARAM_ERROR = 2; public static $ERRMSG = array(self::OK => "\157\153", self::SYSTEM_ERROR => "\xe7\xb3\273\xe7\xbb\x9f\351\224\x99\xe8\257\xaf", self::PARAM_ERROR => "\345\217\202\346\x95\xb0\351\224\x99\350\257\257"); }
